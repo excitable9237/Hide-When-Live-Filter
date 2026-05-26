@@ -23,7 +23,7 @@ An OBS Studio source filter plugin that automatically hides sources during live 
    C:\Program Files\obs-studio\data\obs-plugins\hide-when-live\locale\
    ```
 3. Restart OBS Studio.
-4. Right-click any source → **Filters** → **+** → **Hide When Live**.
+4. Right-click any source > **Filters** > **Add** > **Hide When Live**.
 
 ---
 
@@ -72,7 +72,7 @@ This plugin was written by [Claude](https://claude.ai) (Anthropic's AI assistant
   [https://github.com/obsproject/obs-studio/blob/master/CODESTYLE.md](https://github.com/obsproject/obs-studio/blob/master/CODESTYLE.md)
 - Build on top of the official OBS Plugin Template as the project foundation:
   [https://github.com/obsproject/obs-plugintemplate](https://github.com/obsproject/obs-plugintemplate)
-- Follow OBS's existing plugin conventions, using the obs-freeze-filter soley as a style reference.
+- Follow OBS's existing plugin conventions, using the [freeze-filter](https://github.com/exeldro/obs-freeze-filter) plugin by Exeldro soley as a style reference.
 
 The resulting code follows OBS-standard patterns: two-pass scene enumeration to avoid deadlocks, correct reference counting on OBS sources, mutex ordering that matches the OBS signal dispatcher's lock hierarchy, and frontend API event handling consistent with other first-party plugins.
 
