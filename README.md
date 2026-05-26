@@ -1,59 +1,79 @@
-# OBS Plugin Template
+# Hide When Live
 
-## Introduction
+An OBS Studio source filter plugin that automatically hides sources during live scene transitions. Apply the filter to any image or video source and it will be invisible when the scene it belongs to is transitioning into the program output — no manual hiding of sources required.
 
-The plugin template is meant to be used as a starting point for OBS Studio plugin development. It includes:
+---
 
-* Boilerplate plugin source code
-* A CMake project file
-* GitHub Actions workflows and repository actions
+## Features
 
-## Supported Build Environments
+- **Automatic hide on transition-in**: When a scene containing a filtered source is about to go live, the source is hidden at the moment the transition begins. The viewer never sees it appear mid-transition.
+- **Automatic restore on transition-out**: Once the scene has fully left the program output and the transition video has completed, the source is made visible again — ready for the next time that scene goes live.
+- **Enabled/disabled toggle**: Use OBS's built-in filter enable/disable checkbox to turn the behavior on or off per source without removing the filter.
 
-| Platform  | Tool   |
-|-----------|--------|
-| Windows   | Visual Studio 17 2022 |
-| macOS     | XCode 16.0 |
-| Windows, macOS  | CMake 3.30.5 |
-| Ubuntu 24.04 | CMake 3.28.3 |
-| Ubuntu 24.04 | `ninja-build` |
-| Ubuntu 24.04 | `pkg-config`
-| Ubuntu 24.04 | `build-essential` |
+---
 
-## Quick Start
+## Installation
 
-An absolute bare-bones [Quick Start Guide](https://github.com/obsproject/obs-plugintemplate/wiki/Quick-Start-Guide) is available in the wiki.
+1. Copy `hide-when-live.dll` to:
+   ```
+   C:\Program Files\obs-studio\obs-plugins\64bit\
+   ```
+2. Copy the `data\locale\` folder contents to:
+   ```
+   C:\Program Files\obs-studio\data\obs-plugins\hide-when-live\locale\
+   ```
+3. Restart OBS Studio.
+4. Right-click any source → **Filters** → **+** → **Hide When Live**.
 
-## Documentation
+---
 
-All documentation can be found in the [Plugin Template Wiki](https://github.com/obsproject/obs-plugintemplate/wiki).
+## Plugin Statistics
 
-Suggested reading to get up and running:
+| Property | Value |
+|---|---|
+| Plugin version | 1.0.0 |
+| OBS Studio version tested | 31.1.1 |
+| Target platform | Windows x64 |
+| DLL size (RelWithDebInfo) | ~28.5 KB (29,184 bytes) |
+| Filter type | Source filter (`OBS_SOURCE_TYPE_FILTER`) |
+| Output flags | `OBS_SOURCE_VIDEO` |
+| Filter ID | `hwl_filter` |
+| Dependencies | `obs-frontend-api` (included with OBS Studio) |
+| Build configuration | RelWithDebInfo |
+| License | GPL-2.0-or-later |
 
-* [Getting started](https://github.com/obsproject/obs-plugintemplate/wiki/Getting-Started)
-* [Build system requirements](https://github.com/obsproject/obs-plugintemplate/wiki/Build-System-Requirements)
-* [Build system options](https://github.com/obsproject/obs-plugintemplate/wiki/CMake-Build-System-Options)
+---
 
-## GitHub Actions & CI
+## Building from Source
 
-Default GitHub Actions workflows are available for the following repository actions:
+Requires CMake and Visual Studio 2022 on Windows.
 
-* `push`: Run for commits or tags pushed to `master` or `main` branches.
-* `pr-pull`: Run when a Pull Request has been pushed or synchronized.
-* `dispatch`: Run when triggered by the workflow dispatch in GitHub's user interface.
-* `build-project`: Builds the actual project and is triggered by other workflows.
-* `check-format`: Checks CMake and plugin source code formatting and is triggered by other workflows.
+**Configure (first time only):**
+```
+cmake --preset windows-x64
+```
 
-The workflows make use of GitHub repository actions (contained in `.github/actions`) and build scripts (contained in `.github/scripts`) which are not needed for local development, but might need to be adjusted if additional/different steps are required to build the plugin.
+**Build:**
+```
+cmake --build build_x64 --config RelWithDebInfo
+```
 
-### Retrieving build artifacts
+Output: `build_x64\RelWithDebInfo\hide-when-live.dll`
 
-Successful builds on GitHub Actions will produce build artifacts that can be downloaded for testing. These artifacts are commonly simple archives and will not contain package installers or installation programs.
+Dependencies (OBS headers, obs-deps, Qt6) are downloaded automatically by the CMake configure step via `buildspec.json`.
 
-### Building a Release
+---
 
-To create a release, an appropriately named tag needs to be pushed to the `main`/`master` branch using semantic versioning (e.g., `12.3.4`, `23.4.5-beta2`). A draft release will be created on the associated repository with generated installer packages or installation programs attached as release artifacts.
+## AI Coding Disclaimer
 
-## Signing and Notarizing on macOS
+This plugin was written by [Claude](https://claude.ai) (Anthropic's AI assistant). During development, Claude was explicitly instructed to:
 
-Basic concepts of codesigning and notarization on macOS are explained in the correspodning [Wiki article](https://github.com/obsproject/obs-plugintemplate/wiki/Codesigning-On-macOS) which has a specific section for the [GitHub Actions setup](https://github.com/obsproject/obs-plugintemplate/wiki/Codesigning-On-macOS#setting-up-code-signing-for-github-actions).
+- Strictly adhere to the OBS Studio coding style guidelines:
+  [https://github.com/obsproject/obs-studio/blob/master/CODESTYLE.md](https://github.com/obsproject/obs-studio/blob/master/CODESTYLE.md)
+- Build on top of the official OBS Plugin Template as the project foundation:
+  [https://github.com/obsproject/obs-plugintemplate](https://github.com/obsproject/obs-plugintemplate)
+- Follow OBS's existing plugin conventions, using the obs-freeze-filter soley as a style reference.
+
+The resulting code follows OBS-standard patterns: two-pass scene enumeration to avoid deadlocks, correct reference counting on OBS sources, mutex ordering that matches the OBS signal dispatcher's lock hierarchy, and frontend API event handling consistent with other first-party plugins.
+
+Human reviewing and testing was performed throughout development.
