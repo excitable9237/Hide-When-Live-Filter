@@ -16,32 +16,15 @@ You should have received a copy of the GNU General Public License along
 with this program. If not, see <https://www.gnu.org/licenses/>
 */
 
-#include <obs-module.h>
-#include "hide-when-live.h"
+#pragma once
 
-OBS_DECLARE_MODULE()
-OBS_MODULE_AUTHOR("Jeremy");
-OBS_MODULE_USE_DEFAULT_LOCALE("hide-when-live", "en-US")
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-MODULE_EXPORT const char *obs_module_description(void)
-{
-	return obs_module_text("Description");
+void hwl_init(void);
+void hwl_cleanup(void);
+
+#ifdef __cplusplus
 }
-
-MODULE_EXPORT const char *obs_module_name(void)
-{
-	return obs_module_text("Hide When Live Filter");
-}
-
-bool obs_module_load(void)
-{
-	blog(LOG_INFO, "[Hide When Live] loaded");
-	hwl_init();
-	return true;
-}
-
-void obs_module_unload(void)
-{
-	hwl_cleanup();
-	blog(LOG_INFO, "[Hide When Live] unloaded");
-}
+#endif
