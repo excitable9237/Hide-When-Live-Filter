@@ -18,7 +18,7 @@ An OBS Studio source filter plugin that automatically hides sources during live 
    ```
    C:\Program Files\obs-studio\obs-plugins\64bit\
    ```
-2. Copy the `data\locale\` folder contents to:
+2. Copy `en-US.ini` to:
    ```
    C:\Program Files\obs-studio\data\obs-plugins\hide-when-live\locale\
    ```
