@@ -1,6 +1,6 @@
-# Hide When Live
+# Hide When Live - Guidelines For OBS
 
-An OBS Studio source filter plugin that automatically hides sources during live scene transitions. Apply the filter to any image or video source and it will be invisible when the scene it belongs to is transitioning into the program output — no manual hiding of sources required.
+An OBS Studio source filter plugin that automatically hides sources during live scene transitions. Apply the filter to any image or video source and it will be invisible when the scene it belongs to is transitioning into the program output. No more manually hiding sources before going live. Great for guidelines!
 
 ---
 
